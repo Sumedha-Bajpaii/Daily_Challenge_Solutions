@@ -7,10 +7,11 @@ public:
         }
         return tt;
     }
-    
+ 
     long long minimumTime(vector<int>& time, int reqTrips) {
         
-        long long int lo=0, hi=1e14;
+        long long int lo=0; 
+        long long int hi=(long long int)*min_element(time.begin(),time.end())*reqTrips;
         
         while(lo<hi){
             long long int mid = (lo+hi)/2;
