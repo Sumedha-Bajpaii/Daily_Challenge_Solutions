@@ -18,10 +18,6 @@ public:
         int n = s.size();
         long long ans = 0;
         
-        for(auto p:mp){
-            
-        }
-        
         for(int i=0; i<n; i++){
             int cnt = (n-(i+1)) - (mp[s[i]] - 1);
             mp[s[i]]--;
