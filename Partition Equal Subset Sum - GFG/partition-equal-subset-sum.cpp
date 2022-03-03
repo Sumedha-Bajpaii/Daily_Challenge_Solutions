@@ -9,34 +9,33 @@ using namespace std;
 
 class Solution{
 public:
-    int f(int n, int target, int arr[], vector<vector<int>> &dp){
-        if(target == 0)
-            return 1;
-        if(n == 0)
-            return 0;
-        
-        if(dp[n][target] != -1)
-            return dp[n][target];
-            
-        if(arr[n-1]<=target)
-            return dp[n][target] = f(n-1, target-arr[n-1], arr, dp) || f(n-1, target, arr, dp);
-        else
-            return dp[n][target] = f(n-1, target, arr,dp);
-    }
-    int equalPartition(int n, int arr[])
+    int equalPartition(int n, int a[])
     {
         // code here
         int sum = 0;
         for(int i=0; i<n; i++)
-            sum += arr[i];
-            
-        if(sum%2 != 0)      //sum is odd
+            sum += a[i];
+        if(sum%2 != 0)
             return 0;
-        int target = sum/2;
         
-        vector<vector<int>> dp(n+1,vector<int>(target+1, -1));
+        sum = sum/2;
+        int dp[n+1][sum+1];
         
-        return f(n,target,arr,dp);
+        for(int j=0; j<sum+1; j++)
+            dp[0][j] = 0;
+        
+        for(int i=0; i<n+1; i++)
+            dp[i][0] = 1;
+            
+        for(int i=1; i<n+1; i++){
+            for(int j=1; j<sum+1; j++){
+                if(a[i-1] <= j)
+                    dp[i][j] = dp[i-1][j-a[i-1]] || dp[i-1][j];
+                else
+                    dp[i][j] = dp[i-1][j];
+            }
+        }
+        return dp[n][sum];
     }
 };
 
