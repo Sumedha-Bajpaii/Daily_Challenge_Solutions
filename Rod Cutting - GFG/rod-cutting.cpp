@@ -10,24 +10,26 @@ using namespace std;
 
 class Solution{
   public:
-    int f(int n, int len, int price[], vector<vector<int>> &dp){
-        if(n==0)
-            return 0;
+    int f(int index, int len, int price[], vector<vector<int>> &dp){
+        if(index==0)        //1 length rod is left
+            return price[index]*len;
         
-        if(dp[n][len] != -1)
-            return dp[n][len];
+        if(dp[index][len] != -1)
+            return dp[index][len];
             
         int take=0, nottake=0;
-        if(n<=len)
-            take = price[n-1] + f(n, len-n, price, dp);
         
-        nottake = f(n-1, len, price, dp);
-        return dp[n][len] = max(take, nottake);
+        nottake = 0 + f(index-1, len, price, dp);
+        if(index+1<=len)
+            take = price[index] + f(index, len-(index+1), price, dp);
+        
+        return dp[index][len] = max(take, nottake);
     }
+    
     int cutRod(int price[], int n) {
         //code here
         vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
-        return f(n,n,price,dp);
+        return f(n-1,n,price,dp);
     }
 };
 
