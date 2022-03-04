@@ -11,6 +11,7 @@ public:
             return dp[n][sum] = f(n-1,sum-a[n-1],a,dp) + f(n-1,sum,a,dp);
         return dp[n][sum] = f(n-1, sum,a,dp);
     }
+    
     int findTargetSumWays(vector<int>& nums, int diff) {
         
         int n = nums.size(), total = 0;
@@ -24,7 +25,7 @@ public:
             return 0;
         
         int sum = (diff + total)/2;
-        if(sum>total || sum<0) return 0;
+        if(sum<0 || sum>total)  return 0;
         //find how many ways we can have a subset with given sum
         //count subset sum
         vector<vector<int>> dp(n+1,vector<int>(sum+1,-1));
