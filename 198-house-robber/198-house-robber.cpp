@@ -1,21 +1,20 @@
 class Solution {
 public:
-    int f(int i, int sum, vector<int>& a,vector<vector<int>> &dp){
-        if(i>=a.size())
-            return sum;
-        if(dp[i][sum]!=-1)
-            return dp[i][sum];
-        return dp[i][sum] = max(f(i+2, sum+a[i], a,dp), f(i+1, sum, a,dp));
+    int f(int idx, vector<int> &A, vector<int> &dp){
+        if(idx<0)
+            return 0;
         
+        if(dp[idx] != -1)
+            return dp[idx];
+        
+        int take = A[idx] + f(idx-2,A,dp);
+        int nottake = f(idx-1,A,dp);
+        
+        return dp[idx] = max(take,nottake);
     }
     int rob(vector<int>& nums) {
-        
-        int total =0;
-        for(auto i: nums)
-            total += i;
         int n = nums.size();
-        vector<vector<int>> dp(n+1,vector<int>(total+1,-1));
-        return f(0,0,nums,dp);
-        
+        vector<int> dp(n+1,-1);
+        return f(n-1,nums,dp);
     }
 };
