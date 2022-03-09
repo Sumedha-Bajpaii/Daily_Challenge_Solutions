@@ -9,33 +9,43 @@ using namespace std;
 
 class Solution{
 public:
-    int equalPartition(int n, int a[])
+    bool f(int ind, int target, vector<int> v, vector<vector<int>> &dp){
+        if(ind==-1)
+            if(target==0)
+                return true;
+            else
+                return false;
+        if(dp[ind][target] != -1)
+            return dp[ind][target];
+            
+        bool take=false,nottake=false;
+        
+        if(v[ind]<=target)
+            take = f(ind-1,target-v[ind],v,dp);
+        nottake = f(ind-1,target,v,dp);
+        
+        return dp[ind][target] = (take or nottake);
+        
+    }
+    int equalPartition(int N, int arr[])
     {
         // code here
+        vector<int> v;
         int sum = 0;
-        for(int i=0; i<n; i++)
-            sum += a[i];
-        if(sum%2 != 0)
-            return 0;
-        
-        sum = sum/2;
-        int dp[n+1][sum+1];
-        
-        for(int j=0; j<sum+1; j++)
-            dp[0][j] = 0;
-        
-        for(int i=0; i<n+1; i++)
-            dp[i][0] = 1;
-            
-        for(int i=1; i<n+1; i++){
-            for(int j=1; j<sum+1; j++){
-                if(a[i-1] <= j)
-                    dp[i][j] = dp[i-1][j-a[i-1]] || dp[i-1][j];
-                else
-                    dp[i][j] = dp[i-1][j];
-            }
+        for(int i=0; i<N; i++){
+            sum += arr[i];
+            v.push_back(arr[i]);
         }
-        return dp[n][sum];
+        
+        if(sum%2!=0)
+            return false;
+        
+        vector<vector<int>> dp(N+1,vector<int>(sum/2+1,-1));
+        bool res = f(N-1,sum/2,v,dp);
+        if(res)
+            return 1;
+        else
+            return 0;
     }
 };
 
