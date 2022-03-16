@@ -3,17 +3,19 @@ public:
     int minimumTotal(vector<vector<int>>& T) {
         
         int n = T.size();
-        vector<vector<int>> dp(n,vector<int>(n));
+        vector<int> prev(n);
         
         for(int j=0; j<n; j++)
-            dp[n-1][j] = T[n-1][j];
+            prev[j] = T[n-1][j];
         
         for(int i=n-2; i>=0; i--){
+            vector<int> cur(i+1);
             for(int j=i; j>=0; j--){
-                dp[i][j] = T[i][j] + min(dp[i+1][j], dp[i+1][j+1]);  
+                cur[j] = T[i][j] + min(prev[j], prev[j+1]);  
             }
+            prev = cur;
         }
         
-        return dp[0][0];
+        return prev[0];
     }
 };
