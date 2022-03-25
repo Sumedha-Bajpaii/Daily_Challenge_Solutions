@@ -12,8 +12,7 @@ public:
         unordered_map<char,int> cur;
         unordered_set<char> done;
             
-        int mn = INT_MAX;
-        pair<int,int> ans = {-1,-1};
+        int mn = INT_MAX, start=-1;
         
         while(j<n)
         {
@@ -28,7 +27,7 @@ public:
                 if(j-i+1 < mn)
                 {
                     mn = j-i+1;
-                    ans = {i,j};
+                    start = i;
                 }          
                 if(cur.find(s[i])!=cur.end())
                 {
@@ -41,11 +40,8 @@ public:
             j++;
         }
         
-        //cout<<mn<<endl;
-        //cout<<s.substr(ans.first,mn)<<endl;
-        
         if(mn==INT_MAX)
             return "";
-        return s.substr(ans.first,mn);
+        return s.substr(start,mn);
     }
 };
