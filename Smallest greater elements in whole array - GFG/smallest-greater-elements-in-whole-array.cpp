@@ -32,23 +32,21 @@ int main()
 // } Driver Code Ends
 
 
-int* greaterElement(int v[], int n)
+int* greaterElement(int arr[], int n)
 {
-set<int> st;
-    for(int i=0;i<n;i++)
-    st.insert(v[i]);
-    vector<int> ans;
-    for(int i=0;i<n;i++)
-    {
-        auto it=st.find(v[i]);
-        if(it!=st.end() && (++it)!=st.end())
-        ans.push_back(*(it));
-        else
-        ans.push_back(-10000000);
+    // Complete the function
+    set<int> st;
+    for(int i=0; i<n; i++){
+        st.insert(arr[i]);
     }
-    for(int i=0;i<n;i++)
-    v[i]=ans[i];
-    return v;
     
-    
+    for(int i=0; i<n; i++){
+        auto it = st.find(arr[i]);
+        it++;
+        if(it == st.end())
+            arr[i] = -10000000;
+        else
+            arr[i] = *it;
+    }
+    return arr;
 }
