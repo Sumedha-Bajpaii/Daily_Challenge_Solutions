@@ -7,18 +7,15 @@ public:
         
         for(i=0; i<n; i++){
             
-            if(st.size()==0 && s[i]=='0')
-                continue;
-        
-            if(st.size()==0 || st.top()<=s[i] || k<=0)
-                st.push(s[i]);
-        
-            else
+            while(st.size()>0 && st.top()>s[i] && k>0)
             {
                 st.pop();
-                i--;
                 k--;
-            }   
+            } 
+            st.push(s[i]);  
+            
+            if(st.size()==1 && st.top()=='0')
+                st.pop();
         }
         
         while(st.size() && k>0){
