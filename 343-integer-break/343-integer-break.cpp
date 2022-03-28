@@ -4,7 +4,7 @@ public:
     {
         if(targ==0 || i==0)
             return 1;
-        if(dp[i][targ] != -1)
+        if(dp[i][targ] != -1 || dp[targ][i] != -1)
             return dp[i][targ];
         
         int take = 1;
