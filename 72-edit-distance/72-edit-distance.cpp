@@ -2,15 +2,15 @@ class Solution {
 public:
     int f(int i, int j, string &s, string &t, vector<vector<int>> &dp){
         
-        if(j<0)
-            return i+1;
-        if(i<0)
-            return j+1;
+        if(j==0)
+            return i;
+        if(i==0)
+            return j;
         
         if(dp[i][j] != -1)
             return dp[i][j];
         
-        if(s[i] != t[j]){
+        if(s[i-1] != t[j-1]){
             int del = 1 + f(i-1,j,s,t,dp);
             int repl = 1 + f(i-1,j-1,s,t,dp);
             int ins = 1 + f(i,j-1,s,t,dp);
@@ -23,8 +23,8 @@ public:
     int minDistance(string s, string t) {
         
         int m=s.size(), n=t.size();
-        vector<vector<int>> dp(m,vector<int>(n,-1));
+        vector<vector<int>> dp(m+1,vector<int>(n+1,-1));
         
-        return f(m-1,n-1,s,t,dp);
+        return f(m,n,s,t,dp);
     }
 };
