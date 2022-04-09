@@ -1,30 +1,29 @@
 class Solution {
 public:
-    
-    int maxProfit(int cnt, vector<int>& prices) {
+    int f(int i,int trans,vector<int>& prices,vector<vector<int>> &dp){
         
-        int n = prices.size();
-        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(cnt+1,0)));
+        if(trans==0 || i==prices.size())
+            return 0;
         
-        vector<vector<int>> after(2,vector<int>(cnt+1,0));
-        vector<vector<int>> cur(2,vector<int>(cnt+1,0));
+        if(dp[i][trans] != -1)
+            return dp[i][trans];
         
-        for(int i=n-1; i>=0; i--){
-            for(int buy=0; buy<=1; buy++){
-                for(int k=1; k<=cnt; k++){
-                    int profit=0;
-                    if(buy==1){
-                        profit = max(-prices[i] + after[0][k], after[buy][k]);
-                    }
-                    else{
-                        profit = max(prices[i] + after[1][k-1], after[buy][k]);
-                    }
-                    cur[buy][k] = profit;
-                }
-            }
-            after = cur;
+        int profit=0;
+        //trans is even ==> buy
+        if(trans%2==0){
+            profit = max(-prices[i]+f(i+1,trans-1,prices,dp), f(i+1,trans,prices,dp));
+        }
+        else{
+            profit = max(prices[i]+f(i+1,trans-1,prices,dp), f(i+1,trans,prices,dp));
         }
         
-        return after[1][cnt];
+        return dp[i][trans] = profit;
+    }
+    
+    int maxProfit(int k, vector<int>& prices) {
+        
+        int n = prices.size();
+        vector<vector<int>> dp(n+1,vector<int>(2*k+1,-1));
+        return f(0,2*k,prices,dp);
     }
 };
