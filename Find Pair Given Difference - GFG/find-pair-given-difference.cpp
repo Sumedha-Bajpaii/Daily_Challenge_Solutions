@@ -26,27 +26,39 @@ int main()
     return 0;
 }// } Driver Code Ends
 
-bool binSearch(int arr[],int l, int h, int key){
-    
-    while(l<=h){
-        int m = l + (h-l)/2;
-        if(arr[m]==key)
-            return true;
-        else if(arr[m]<key)
-            l = m+1;
-        else
-            h = m-1;
+int binarySearch(int arr[], int l, int r, int x)
+{
+    if (r >= l) {
+        int mid = l + (r - l) / 2;
+ 
+        // If the element is present at the middle
+        // itself
+        if (arr[mid] == x)
+            return 1;
+ 
+        // If element is smaller than mid, then
+        // it can only be present in left subarray
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid - 1, x);
+ 
+        // Else the element can only be present
+        // in right subarray
+        return binarySearch(arr, mid + 1, r, x);
     }
-    return false;
+ 
+    // We reach here when element is not
+    // present in array
+    return 0;
 }
 
-bool findPair(int arr[], int size, int k){
+
+bool findPair(int arr[], int size, int n){
     //code
     sort(arr,arr+size);
+    
     for(int i=0; i<size; i++){
-        if(binSearch(arr,i+1,size-1,arr[i]+k))
-            return true;;
+        if(binarySearch(arr,i+1,size-1,arr[i]+n))
+            return true;
     }
     return false;
-    
 }
