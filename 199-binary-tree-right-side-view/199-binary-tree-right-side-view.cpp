@@ -26,8 +26,6 @@ public:
     vector<int> rightSideView(TreeNode* root) {
         
         vector<int> res;
-        if(root==NULL)
-            return res;
         
         f(root,0,res);
         return res;
