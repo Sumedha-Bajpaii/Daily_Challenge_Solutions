@@ -108,9 +108,9 @@ public:
     void leftBoundry(Node* root, vector<int> &v){
         if(root==NULL)
             return;
-        if(root->left==NULL && root->right==NULL)
-            return;
-        v.push_back(root->data);
+        if(root->left || root->right)
+            v.push_back(root->data);
+            
         if(root->left)  leftBoundry(root->left,v);
         else if(root->right)  leftBoundry(root->right,v);
     }
@@ -118,43 +118,41 @@ public:
     void leafNodes(Node* root,vector<int> &v){
         if(root==NULL)
             return;
+            
+        leafNodes(root->left,v);
+        
         if(root->left==NULL && root->right==NULL)
             v.push_back(root->data);
             
-        leafNodes(root->left,v);
         leafNodes(root->right,v);
     }
     
     void rightBoundry(Node* root, vector<int> &v){
         if(root==NULL)
             return;
-        if(root->left==NULL && root->right==NULL)
-            return;
-        v.push_back(root->data);
+    
         if(root->right)  rightBoundry(root->right,v);
         else if(root->left)  rightBoundry(root->left,v);
+        
+        if(root->left || root->right)
+            v.push_back(root->data);
     }
     
     vector <int> boundary(Node *root)
     {
         //Your code here
-        if(root->left==NULL && root->right==NULL)
-            return {root->data};
-            
-            
         vector<int> v;
+        
+        if(root==NULL)
+            return v;
         v.push_back(root->data);
+        
+        if(root->left==NULL && root->right==NULL)
+            return v;
         
         leftBoundry(root->left,v);
         leafNodes(root,v);
-        
-        vector<int> rev;
-        rightBoundry(root->right,rev);
-        
-        while(rev.size()){
-            v.push_back(rev.back());
-            rev.pop_back();
-        }
+        rightBoundry(root->right,v);
         
         return v;
     }
