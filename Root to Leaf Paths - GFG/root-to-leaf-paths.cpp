@@ -128,7 +128,7 @@ struct Node
 
 /* The function should print all the paths from root
  to leaf nodes of the binary tree */
-void f(Node* root,vector<int> v, vector<vector<int>> &res){
+void f(Node* root,vector<int> &v, vector<vector<int>> &res){
     
     if(root==NULL)
         return;
@@ -141,6 +141,7 @@ void f(Node* root,vector<int> v, vector<vector<int>> &res){
     
     f(root->left,v,res);
     f(root->right,v,res);
+    v.pop_back();
 }
 
 vector<vector<int>> Paths(Node* root)
