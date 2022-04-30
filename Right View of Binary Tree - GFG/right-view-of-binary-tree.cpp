@@ -46,12 +46,10 @@ class Solution
         if(root==NULL)
             return;
             
-        if(mp.find(level)==mp.end()){
-            mp[level] = root->data;
-        }
-        
-        f(root->right,level+1,mp);
+        mp[level] = root->data;
+     
         f(root->left,level+1,mp);
+        f(root->right,level+1,mp);
     }
     
     vector<int> rightView(Node *root)
