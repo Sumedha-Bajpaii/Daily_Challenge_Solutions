@@ -120,33 +120,25 @@ struct Node
     Node* left, * right;
 }; */
 
-//lev = diagonal level
-
-void f(Node* node, int lev, map<int,vector<int>> &mp){
-    
-    if(node==NULL)
-    return;
-    
-    mp[lev].push_back(node->data);
-    f(node->left,lev+1,mp);
-    f(node->right,lev,mp);
-}
 
 vector<int> diagonal(Node *root)
 {
    // your code here
-   vector<int> res;
-   if(!root)
+    vector<int> res;
+    if(!root)
         return res;
+
+    queue<Node*> q;
+    q.push(root);
    
-    map<int,vector<int>> mp;
-    f(root,0,mp);
-    
-    for(auto p: mp){
-        for(auto x: p.second){
-            res.push_back(x);
-        }
-    }
+    while(q.size()){
+       Node* node = q.front(); q.pop();
+       while(node != NULL){
+           res.push_back(node->data);
+           if(node->left)   q.push(node->left);
+           node = node->right;
+       }
+   }
    
    return res;
 }
