@@ -96,16 +96,17 @@ Node* buildTree(string str)
 class Solution {
   public:
     vector <int> bottomView(Node *root) {
-        // Your Code Here
+        //Your code here
         vector<int> res;
+        if(!root)   
+            return res;
+        
         map<int,int> mp;
         queue<pair<Node*,int>> q;
-        
         q.push({root,0});
         
         while(q.size()){
-            auto p = q.front();
-            q.pop();
+            auto p = q.front(); q.pop();
             Node* node = p.first;
             int hd = p.second;
             
