@@ -24,8 +24,10 @@ public:
         f(node->left,k);
         
         cur++;
-        if(cur==k)
+        if(cur==k){
             ans = node->val;
+            return;
+        }
         
         f(node->right,k);
     }
