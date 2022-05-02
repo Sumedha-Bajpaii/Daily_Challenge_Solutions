@@ -41,6 +41,7 @@ struct Node
 */
 class Solution{
     public:
+    unordered_map<int,int> mp;
     Node* f(int &cur,int s,int e,int pre[],int in[]){
         
         if(s>e){
@@ -50,13 +51,7 @@ class Solution{
             
         Node* node = new Node(pre[cur]);
         
-        int pos;
-        for(int i=s; i<=e; i++){
-            if(in[i]==pre[cur]){
-                pos = i;
-                break;
-            }
-        }
+        int pos = mp[pre[cur]];
         
         cur++;
         node->left = f(cur,s,pos-1,pre,in);
@@ -70,6 +65,10 @@ class Solution{
     {
         // Code here
         int cur=0;
+        mp.clear();
+        for(int i=0; i<n; i++){
+            mp[in[i]] = i;
+        }
         return f(cur,0,n-1,pre,in);
     }
 };
