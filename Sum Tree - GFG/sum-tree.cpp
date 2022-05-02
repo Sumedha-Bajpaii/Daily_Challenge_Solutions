@@ -95,26 +95,28 @@ struct Node
 class Solution
 {
     public:
-    int f(Node* node, bool &ans){
+    bool ans;
+    
+    int f(Node* node){
         if(!node)
             return 0;
         if(!node->left && !node->right)
             return node->data;
         
-        int lsum = f(node->left,ans);
-        int rsum = f(node->right,ans);
+        int lsum = f(node->left);
+        int rsum = f(node->right);
         
         if(node->data != lsum+rsum)
             ans = false;
         
         return lsum + rsum + node->data;
-        
     }
+    
     bool isSumTree(Node* root)
     {
          // Your code here
-         bool ans = true;
-         f(root,ans);
+         ans = true;
+         f(root);
          return ans;
     }
 };
