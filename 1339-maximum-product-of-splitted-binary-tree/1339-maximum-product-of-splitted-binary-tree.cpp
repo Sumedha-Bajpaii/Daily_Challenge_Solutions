@@ -12,33 +12,25 @@
 class Solution {
 public:
     int mod = 1e9 + 7;
-    long f(TreeNode* root){
-        if(!root)
-            return 0;
-        long lsum = f(root->left);
-        long rsum = f(root->right);
-        
-        return lsum + rsum + root->val;
-    }
     
-    long g(TreeNode* root, long total, long &prod){
+    long f(TreeNode* root, long total, long &prod){
         if(!root)
             return 0;
-        long lsum = g(root->left, total, prod);
-        long rsum = g(root->right, total, prod);
+        long lsum = f(root->left, total, prod);
+        long rsum = f(root->right, total, prod);
+        long curSum = lsum + rsum + root->val;
         
-        prod = max(prod, lsum*(total-lsum) );
-        prod = max(prod, rsum*(total-rsum) );
+        prod = max(prod, curSum*(total-curSum) );
         
-        return lsum + rsum + root->val;
+        return curSum;
     }
     
     int maxProduct(TreeNode* root) {
         
-        long total = f(root);
-        // cout<<total;
         long res = 0;
-        g(root,total,res);
+        long total = f(root,0,res);
+        
+        f(root,total,res);
         return res%mod;
     }
 };
