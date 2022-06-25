@@ -1,55 +1,37 @@
 class Solution {
 public:
-    int binSearch(int key, vector<int> &v){
+    int minOperations(vector<int>& nums, int x) {
         
-        int lo=0, hi=v.size()-1;
+        int total=0;
+        for(auto e: nums)
+            total += e;
         
-        while(lo <= hi){
-            int mid = (lo + hi)/2;
-            if(v[mid] == key)
-                return mid;
-            if(key < v[mid])
-                hi = mid-1;
-            else
-                lo = mid+1;
-        }
-        return -1;
-    }
+        int targ = total-x;   //11-5=6 find maximum size subarray of sum = targ
+        
+        int i=0, j=0, sum=0, n=nums.size(), len=0;
     
-    int minOperations(vector<int>& a, int x) {
+        if(targ < 0)    return -1;
+        if(targ==0)     return n;
         
-        int n = a.size();
-        vector<int> pre, suf;
-        
-        pre.push_back(0);
-        for(int i=0; i<n; i++){
-            pre.push_back(pre.back()+a[i]);
-        }
-        
-        if(pre.back()<x)
-            return -1;
-        
-        suf.push_back(0);
-        for(int i=n-1; i>=0; i--){
-            suf.push_back(suf.back()+a[i]);
-        }
-        
-        int res=INT_MAX;
-        
-        for(int i=0; i<n; i++){
+        while(j<n){
+            sum += nums[j];
             
-            if(pre[i] > x)
-                break;
+            while(sum > targ){
+                sum -= nums[i];
+                i++;
+            }
             
-            int diff = x-pre[i];
-            int j = binSearch(diff,suf);
-            if(j==-1)
-                continue;
-            res = min(res, i+j);
+            if(sum == targ){
+                len = max(len,j-i+1);
+                sum -= nums[i];
+                i++;
+            }
+            
+            j++;
         }
         
-        if(res==INT_MAX)
+        if(len==0)
             return -1;
-        return res;
+        return n-len;
     }
 };
