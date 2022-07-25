@@ -1,18 +1,18 @@
 class MinStack {
-    vector<int> v;
+    stack<int> st;
     map<int,int> mp;
     
 public:
     MinStack() {}
     
     void push(int val) {
-        v.push_back(val);
+        st.push(val);
         mp[val]++;
     }
     
     void pop() {
-        int t = v.back();
-        v.pop_back();
+        int t = st.top();
+        st.pop();
         mp[t]--;
         
         if(mp[t]==0){
@@ -21,7 +21,7 @@ public:
     }
     
     int top() {
-        return v.back();
+        return st.top();
     }
     
     int getMin() {
