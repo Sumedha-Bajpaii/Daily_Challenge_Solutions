@@ -8,20 +8,20 @@ public:
     
     int reverse(int x) {
         
-        long long result;
+        long result;
     
         if(x<0)
         {
             string s = to_string(abs(x));
             string res = rev(s);
             res.insert(0, "-");
-            result = stoll(res);
+            result = stol(res);
         }
         else
         {
             string s = to_string(abs(x));
             string res = rev(s);
-            result = stoll(res);
+            result = stol(res);
         }
         
         if(result > INT_MAX || result < INT_MIN)
