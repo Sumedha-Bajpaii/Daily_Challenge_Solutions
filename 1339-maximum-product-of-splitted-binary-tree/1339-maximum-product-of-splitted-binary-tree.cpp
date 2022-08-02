@@ -11,26 +11,37 @@
  */
 class Solution {
 public:
-    int mod = 1e9 + 7;
-    
-    long f(TreeNode* root, long total, long &prod){
-        if(!root)
+    long sum(TreeNode* root){
+        if(root==NULL)
             return 0;
-        long lsum = f(root->left, total, prod);
-        long rsum = f(root->right, total, prod);
-        long curSum = lsum + rsum + root->val;
         
-        prod = max(prod, curSum*(total-curSum) );
+        long ls = sum(root->left);
+        long rs = sum(root->right);
         
-        return curSum;
+        return ls + rs + root->val;
+    }
+    
+    long f(TreeNode* root, long total, long &ans){
+        if(root==NULL)
+            return 0;
+        
+        long ls = f(root->left,total,ans);
+        long rs = f(root->right,total,ans);
+        
+        ans = max(ans, ls*(total-ls));
+        ans = max(ans, rs*(total-rs));
+        
+        return ls + rs + root->val;
     }
     
     int maxProduct(TreeNode* root) {
         
-        long res = 0;
-        long total = f(root,0,res);
+        int mod = 1e9+7;
         
-        f(root,total,res);
-        return res%mod;
+        long total = sum(root);
+        long ans = 0;
+        f(root,total,ans);
+        
+        return ans%mod;
     }
 };
