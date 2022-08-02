@@ -11,15 +11,6 @@
  */
 class Solution {
 public:
-    long sum(TreeNode* root){
-        if(root==NULL)
-            return 0;
-        
-        long ls = sum(root->left);
-        long rs = sum(root->right);
-        
-        return ls + rs + root->val;
-    }
     
     long f(TreeNode* root, long total, long &ans){
         if(root==NULL)
@@ -37,9 +28,10 @@ public:
     int maxProduct(TreeNode* root) {
         
         int mod = 1e9+7;
-        
-        long total = sum(root);
         long ans = 0;
+        
+        long total = f(root,0,ans);
+        //cout<<ans<<endl;
         f(root,total,ans);
         
         return ans%mod;
