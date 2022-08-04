@@ -22,28 +22,15 @@ public:
         
         //cout<<cnt<<" "<<mask<<endl;
         
-        vector<int> ans1,ans2;
+        int ans1=0, ans2=0;
         
         for(auto num: nums){
             if(num&mask)
-                ans1.push_back(num);
+                ans1 ^= num;
             else
-                ans2.push_back(num);
+                ans2 ^= num;
         }
         
-        vector<int> ans;
-        n=0;
-        for(auto num: ans1){
-            n = n^num;
-        }
-        ans.push_back(n);
-        
-        n=0;
-        for(auto num: ans2){
-            n = n^num;
-        }
-        ans.push_back(n);
-        
-        return ans;
+        return {ans1,ans2};
     }
 };
