@@ -16,6 +16,9 @@ public:
         }
         
         return dp[cur] = 0;
+        
+        //dp[cur] == 0 means: "cur" index se aage jaa kr tm end tk pahuch nai sakte chaahe jo kr leo
+        // becuz it is pre-calculated... so better not try
     }
     
     bool wordBreak(string s, vector<string>& dict) {
