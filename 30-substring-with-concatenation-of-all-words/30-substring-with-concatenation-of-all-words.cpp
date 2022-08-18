@@ -7,7 +7,7 @@ public:
         int total = words.size()*len;
         
         unordered_map<string,int> fr, mp;
-        unordered_set<string> st;
+        // unordered_set<string> st;
         
         for(auto word: words){
             fr[word]++;
@@ -36,7 +36,7 @@ public:
             
             if(j == i+total){
                 res.push_back(i);
-                st.insert(s.substr(i,total));
+                // st.insert(s.substr(i,total));
             }
                 
         }
