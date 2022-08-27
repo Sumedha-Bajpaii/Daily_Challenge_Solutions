@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void dfs(int i,int j, int old, int neww, vector<vector<int>>& img){
+    void dfs(int i,int j, int &old, int &neww, vector<vector<int>>& img){
         
         //cout<<i<<" "<<j<<endl;
         img[i][j] = neww;
@@ -24,7 +24,9 @@ public:
         if(image[sr][sc] == color)
             return image;
         
-        dfs(sr,sc,image[sr][sc], color,image);
+        int tmp = image[sr][sc];
+        // dfs(sr,sc,image[sr][sc], color,image);
+        dfs(sr,sc,tmp, color,image);
         return image;
     }
 };
