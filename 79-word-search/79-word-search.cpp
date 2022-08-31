@@ -1,43 +1,44 @@
 class Solution {
 public:
-    vector<vector<int>> dir = {{-1,0}, {0,1}, {1,0}, {0,-1}};
-    
-    bool f(int i,int j, int k, string& word, vector<vector<char>> &board){
-        
-        if(k==word.size())
-            return true;
-        
-        if(i<0 || i>=board.size() || j<0 || j>=board[0].size() || board[i][j]=='#')
+    bool f(int i,int j,int it,vector<vector<char>>& brd, string s,vector<vector<int>>& vis)
+    {
+        if(it == s.size()) return true;
+        if(i<0 || i>=brd.size() || j<0 || j>=brd[0].size())
             return false;
+        bool n1 = false,n2 = false,n3 = false,n4 = false;
         
-        if(board[i][j] != word[k])
+        if(s[it] == brd[i][j] && vis[i][j] != 1)
+        {
+            vis[i][j] =1;
+            n1 = f(i+1,j,it+1,brd,s,vis);
+            n2 = f(i-1,j,it+1,brd,s,vis);
+            n3 = f(i,j+1,it+1,brd,s,vis);
+            n4 = f(i,j-1,it+1,brd,s,vis);
+        }
+        else
+        {
             return false;
-        
-        char temp = board[i][j];
-        board[i][j] = '#';
-        
-        for(auto &d: dir){
-            if(f(i+d[0], j+d[1], k+1, word, board) == true)
-                return true;
         }
         
-        board[i][j] = temp;
-        return false;
+        bool ans = n1||n2||n3||n4;
+        // cout<<ans << " ";
+        vis[i][j] = 0;      //changed
+        return ans;
     }
-    
-    bool exist(vector<vector<char>>& board, string word) {
-        
-        int m=board.size(), n=board[0].size();
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(board[i][j] == word[0]){
-                    bool res = f(i,j,0,word,board);
-                    if(res == true)
-                        return res;
-                }
+    bool exist(vector<vector<char>>& brd, string word) {
+        int n = brd.size(),m = brd[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        bool ans= false;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+               ans = f(i,j,0,brd,word,vis);
+               if(ans == true)
+                   // break;
+                   return ans;      //changed
             }
         }
-        
-        return false;
+        return ans;
     }
 };
