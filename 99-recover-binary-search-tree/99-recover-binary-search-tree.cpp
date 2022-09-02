@@ -12,12 +12,12 @@
 
 class Solution {
 private:
-    TreeNode *first,*last;
+    TreeNode *first,*last,*prev;
 public:
-    void solve(TreeNode *&prev, TreeNode* root){
+    void solve(TreeNode* root){
         if(root==NULL)
             return;
-        solve(prev,root->left);
+        solve(root->left);
         
         if(prev!=NULL && root->val<prev->val)        //violation
         {
@@ -27,16 +27,16 @@ public:
         }
         
         prev = root;
-        solve(prev,root->right);
+        solve(root->right);
     }
     
     void recoverTree(TreeNode* root) {
         
         if(root==NULL)  return;
         
-        first = last = NULL;
-        TreeNode *prev=NULL;
-        solve(prev,root);
+        first = last = prev = NULL;
+      
+        solve(root);
         
         swap(first->val,last->val);
     }
