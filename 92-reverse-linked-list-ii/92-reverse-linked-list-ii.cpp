@@ -15,32 +15,33 @@ public:
         if(head==NULL || head->next==NULL)
             return head;
         
-        int cnt = 1;
-        ListNode *temp=new ListNode(-1), *cur=head;
+        ListNode *dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode *start, *end, *temp=dummy;
         
-        while(cnt < left){ 
-            temp = cur;
-            cur = cur->next;
-            cnt++;
+        for(int cnt=0; cnt<=right; cnt++){
+            if(cnt == left-1)
+                start = temp;
+            if(cnt == right)
+                end = temp;
+            temp = temp->next;
         }
-        ListNode *pre = cur, *start = cur;
-        cur = cur->next;
-        cnt++;
         
-        while(cnt<=right){
-            //reverse here
+        temp = start->next;
+        
+        //reverse here
+        ListNode *pre=start->next, *cur = pre->next;
+        while(pre != end){
             ListNode* next = cur->next;
             cur->next = pre;
             pre = cur;
             cur = next;
-            cnt++;
         }
-        temp->next = pre;
-        start->next = cur;
         
-        if(left==1)
-            return temp->next;
+        // start->next = end;
+        start->next = pre;
+        temp->next = cur;
         
-        return head;
+        return dummy->next;
     }
 };
