@@ -1,34 +1,22 @@
 class Solution {
 public:
-    int f(int n, int sum, vector<int> &a, vector<vector<int>> &dp){
-        if(n==0)
-            return sum==0;
+    int f(int i,int cur, vector<int>& nums, int target, vector<vector<int>>& dp){
         
-        if(dp[n][sum] != -1)
-            return dp[n][sum];
+        if(i==nums.size()){
+            if(cur==target)
+                return 1;
+            else
+                return 0;
+        }
+        if(dp[i][cur+1000] != -1)
+            return dp[i][cur+1000];
         
-        if(a[n-1] <= sum)
-            return dp[n][sum] = f(n-1,sum-a[n-1],a,dp) + f(n-1,sum,a,dp);
-        return dp[n][sum] = f(n-1, sum,a,dp);
+        return dp[i][cur+1000] = f(i+1,cur+nums[i], nums,target,dp) + f(i+1, cur-nums[i], nums,target,dp);
+        
     }
-    
-    int findTargetSumWays(vector<int>& nums, int diff) {
+    int findTargetSumWays(vector<int>& nums, int target) {
         
-        int n = nums.size(), total = 0;
-        for(auto i: nums)
-            total += i;
-        //s1 - s2 = diff
-        //s1 - (total - s1) = diff
-        //2*s1 = diff + total 
-        //s1 = (diff + total)/2
-        if((diff + total)%2 != 0)
-            return 0;
-        
-        int sum = (diff + total)/2;
-        if(sum<0 || sum>total)  return 0;
-        //find how many ways we can have a subset with given sum
-        //count subset sum
-        vector<vector<int>> dp(n+1,vector<int>(sum+1,-1));
-        return f(n,sum,nums,dp);
+        vector<vector<int>> dp(nums.size(),vector<int>(3000,-1));
+        return f(0,0,nums,target,dp);
     }
 };
