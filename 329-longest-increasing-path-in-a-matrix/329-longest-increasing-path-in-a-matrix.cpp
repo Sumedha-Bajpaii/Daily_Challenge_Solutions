@@ -13,14 +13,14 @@ public:
             return dp[i][j];
         
         int temp = mat[i][j];
-        mat[i][j] = -2;
+        // mat[i][j] = -2;
         
         int res = 0;
         for(auto &d: dir){
             res = max(res, dfs(i+d.first, j+d.second, temp,mat,dp));
         }
         
-        mat[i][j] = temp;
+        // mat[i][j] = temp;        //no need of Backtracking
         return dp[i][j] = res+1;
     }
     
