@@ -16,8 +16,10 @@ public:
         u = dfs(i-1,j, maxx-1,m,n,dp);
         d = dfs(i+1,j, maxx-1,m,n,dp);
         
-        return dp[i][j][maxx] = ((l+r)%mod + (u+d)%mod)%mod;
         
+        return dp[i][j][maxx] = ((l+r)%mod + (u+d)%mod)%mod;
+        // return dp[i][j][maxx] = ( (l+r+u)%mod + d)%mod;
+        // return dp[i][j][maxx] = (l+r+u+d)%mod;        
     }
     
     int findPaths(int m, int n, int maxx, int sr, int sc) {
