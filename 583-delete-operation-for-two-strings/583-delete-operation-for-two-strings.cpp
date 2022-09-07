@@ -1,27 +1,26 @@
 class Solution {
 public:
-	int f(string &s1,string &s2,int m,int n,vector<vector<int>> &dp)
-	{
-	    if(m==0 || n==0)
-	        return 0;
-	   
-	    if(dp[m][n] != -1)
-	        return dp[m][n];
-	        
-	    if(s1[m-1]==s2[n-1])
-	        return dp[m][n] = 1 + f(s1,s2,m-1,n-1,dp);
-	        
-	    return dp[m][n] = max(f(s1,s2,m-1,n,dp), f(s1,s2,m,n-1,dp));
-	}
-    
+    int f(int i,int j,string s1, string s2, vector<vector<int>>& dp){
+        if(i==-1)
+            return j+1;
+        if(j==-1)
+            return i+1;
+        
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        
+        if(s1[i]==s2[j]){
+            return f(i-1,j-1,s1,s2,dp);
+        }
+        int x = f(i-1,j,s1,s2,dp);
+        int y = f(i,j-1,s1,s2,dp);
+        
+        return dp[i][j] = 1 + min(x,y);
+    }
     int minDistance(string s1, string s2) {
         
-        int m = s1.size();
-	    int n = s2.size();
-	    
-	    vector<vector<int>> dp(m+1, vector<int>(n+1,-1));
-	    
-	    int lcsLen = f(s1,s2,m,n,dp);
-	    return m-lcsLen + n-lcsLen;
+        int n1=s1.size(), n2=s2.size();
+        vector<vector<int>> dp(n1+1,vector<int>(n2+1,-1));
+        return f(n1-1,n2-1,s1,s2,dp);
     }
 };
