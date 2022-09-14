@@ -14,21 +14,16 @@ public:
     void f(TreeNode* root, vector<int>& freq, int& odd,int &path){
         
         if(root==NULL)  return;
-        if(!root->left && !root->right){    //leaf
-            if(++freq[root->val]%2 != 0)  odd++;
-            else  odd--;
-            
-            if(odd<=1) path++;
-            
-            if(--freq[root->val]%2 != 0)  odd++;
-            else  odd--;
-        }
         
         if(++freq[root->val]%2 != 0)  odd++;
         else  odd--;
         
         f(root->left,freq,odd,path);
         f(root->right,freq,odd,path);
+        
+        if(!root->left && !root->right){    //leaf
+            if(odd<=1) path++;
+        }
         
         if(--freq[root->val]%2 != 0)  odd++;
         else  odd--;
