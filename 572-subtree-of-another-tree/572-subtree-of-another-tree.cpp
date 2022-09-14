@@ -22,15 +22,9 @@ public:
         return same(root->left,sroot->left) && same(root->right,sroot->right);
     }
     
-    bool f(TreeNode* root,TreeNode* sroot){
-        if(root==NULL)
+    bool isSubtree(TreeNode* root, TreeNode* sroot) {
+         if(root==NULL)
             return false;
-        
-        return same(root,sroot) || f(root->left,sroot) || f(root->right,sroot);
-    }
-    
-    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        
-        return f(root,subRoot);
+        return same(root,sroot) || isSubtree(root->left,sroot) || isSubtree(root->right,sroot);
     }
 };
