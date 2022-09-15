@@ -1,44 +1,34 @@
 class Solution {
 public:
-    bool f(int i,int j,int it,vector<vector<char>>& brd, string s,vector<vector<int>>& vis)
-    {
-        if(it == s.size()) return true;
-        if(i<0 || i>=brd.size() || j<0 || j>=brd[0].size())
-            return false;
-        bool n1 = false,n2 = false,n3 = false,n4 = false;
+    bool dfs(int i,int j,vector<vector<char>>& board,int k,string& word){
         
-        if(s[it] == brd[i][j] && vis[i][j] != 1)
-        {
-            vis[i][j] =1;
-            n1 = f(i+1,j,it+1,brd,s,vis);
-            n2 = f(i-1,j,it+1,brd,s,vis);
-            n3 = f(i,j+1,it+1,brd,s,vis);
-            n4 = f(i,j-1,it+1,brd,s,vis);
-        }
-        else
-        {
+        if(k==word.size())
+            return true;
+        if(i<0 || i>=board.size() || j<0 || j>=board[0].size())
             return false;
-        }
+        if(board[i][j]=='#' || board[i][j]!=word[k])
+            return false;
         
-        bool ans = n1||n2||n3||n4;
-        // cout<<ans << " ";
-        vis[i][j] = 0;      //changed
-        return ans;
+        board[i][j] = '#';      //marking as visited
+        
+        bool up = dfs(i-1,j,board,k+1,word);
+        bool down = dfs(i+1,j,board,k+1,word);
+        bool left = dfs(i,j-1,board,k+1,word);
+        bool right = dfs(i,j+1,board,k+1,word);
+        
+        board[i][j] = word[k];      //mark unvisited //backtrack 
+        return up || down || left || right;
     }
-    bool exist(vector<vector<char>>& brd, string word) {
-        int n = brd.size(),m = brd[0].size();
-        vector<vector<int>>vis(n,vector<int>(m,0));
-        bool ans= false;
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<m;j++)
-            {
-               ans = f(i,j,0,brd,word,vis);
-               if(ans == true)
-                   // break;
-                   return ans;      //changed
+    
+    bool exist(vector<vector<char>>& board, string word) {
+        
+        for(int i=0; i<board.size(); i++){
+            for(int j=0; j<board[0].size(); j++){
+                if(dfs(i,j,board,0,word) == true)
+                    return true;
             }
         }
-        return ans;
+        
+        return false;
     }
 };
