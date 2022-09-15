@@ -2,36 +2,30 @@ class Solution {
 public:
     int trap(vector<int>& h) {
         
-        vector<int> l,r;
+        //find farthest highest building on both left and right
         int n = h.size();
-        int maxi =0;
-        for(int i =0;i<n;i++)
-        {
-            maxi = max(maxi,h[i]);
-            l.push_back(max(maxi,h[i]));
-        }
-        // for(auto i:l)
-        //     cout<<i<<" ";
-        // cout<<endl;
+        vector<int> left(n,0), right(n,0);
         
-        maxi =0;
-        for(int i =n-1;i>=0;i--)
-        {
-            maxi = max(maxi,h[i]);
-            r.push_back(max(maxi,h[i]));
+        int hsr=0;              //highest so far  //left to right
+        for(int i=0; i<n; i++){
+            hsr = max(hsr,h[i]);
+            left[i] = hsr;
         }
-        reverse(r.begin(),r.end());
         
-        int sum=0;
-        for(int i =0;i<n;i++)
-        {
-            if(min(l[i],r[i])-h[i]>0)
-                sum+=(min(l[i],r[i])-h[i]);
+        hsr = 0;                //right to left
+        for(int i=n-1; i>=0; i--){
+            hsr = max(hsr,h[i]);
+            right[i] = hsr;
         }
-        // for(auto i:r)
-        //     cout<<i<<" ";
-        // cout<<endl;
         
-        return sum;
+        int ans=0;
+        for(int i=0; i<n; i++){
+            //water above i'th building
+            int t = min(left[i],right[i]);
+            int water = max(0,t-h[i]);
+            ans += water;
+        }
+    
+        return ans;
     }
 };
