@@ -1,4 +1,5 @@
 //longest common substring
+//compare all prefix of A; with all prefix of B; and find longest common suffix
 class Solution {
 public:
     int findLength(vector<int>& A, vector<int>& B) {
