@@ -1,47 +1,43 @@
 class Solution {
 public:
-    vector<vector<int>> directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
         
-        //m*n matrix
-        int m=mat.size(), n=mat[0].size(), i,j;
-        vector<vector<int>> dist(m,vector<int>(n,1e9));
-        
-        //x y d
+        int n=mat.size(), m=mat[0].size();
+        vector<vector<int>> vis(n,vector<int>(m,0)), res(n,vector<int>(m));
+            // i j d
         queue<vector<int>> q;
         
-        for(i=0; i<m; i++){
-            for(j=0; j<n; j++){
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
                 if(mat[i][j] == 0){
-                    dist[i][j] = 0;
-                    q.push({i,j});
-                    mat[i][j] = -1;
-                    break;
+                    q.push({i,j,0});
+                    vis[i][j] = 1;
                 }
             }
         }
         
-        while(!q.empty()){
+        int deltaRow[] = {-1,1,0,0};
+        int deltaCol[] = {0,0,-1,1};
+        
+        while(q.size()){
             auto v = q.front(); q.pop();
-            int x=v[0], y=v[1], d=dist[x][y];
+            int row=v[0], col=v[1], dist=v[2];
+            res[row][col] = dist;
             
-            for(auto dir: directions){
-                i=x+dir[0]; j=y+dir[1];
-                if(i<0 ||j<0 ||i>=m ||j>=n)
+            for(int i=0; i<4; i++){
+                int nrow = row + deltaRow[i];
+                int ncol = col + deltaCol[i];
+                
+                if(nrow<0 || nrow>=n || ncol<0 || ncol>=m)
+                    continue;
+                if(vis[nrow][ncol]==1)
                     continue;
                 
-                if(mat[i][j]==1 && dist[i][j] > d+1){
-                    dist[i][j] = d+1;
-                    q.push({i,j});
-                }
-                if(mat[i][j] == 0){
-                    dist[i][j] = 0;
-                    q.push({i,j});
-                    mat[i][j] = -1;
-                }
+                q.push({nrow,ncol,dist+1});
+                vis[nrow][ncol] = 1;
             }
         }
         
-        return dist;
+        return res;
     }
 };
