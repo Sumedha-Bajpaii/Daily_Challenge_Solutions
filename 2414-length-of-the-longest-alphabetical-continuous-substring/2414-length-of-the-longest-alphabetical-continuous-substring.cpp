@@ -2,13 +2,14 @@ class Solution {
 public:
     int longestContinuousSubstring(string s) {
         
-        string alphabet = "abcdefghijklmnopqrstuvwxyz";
+        // string alphabet = "abcdefghijklmnopqrstuvwxyz";
         
         int n=s.size(), j=0;
         int ans=0,cur=0;
         
         while(j<n){
-            if(j==0 || alphabet[s[j]-'a']==alphabet[s[j-1]-'a'+1]){
+            // if(j==0 || alphabet[s[j]-'a']==alphabet[s[j-1]-'a'+1])
+            if(j==0 || s[j]-'a'==s[j-1]-'a'+1){
                 cur++;
             }
             else{
