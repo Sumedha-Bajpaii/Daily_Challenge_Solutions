@@ -1,36 +1,39 @@
 class Solution {
 public:
-    bool isCyclic(int node,vector<vector<int>>& adj,vector<int>& vis, vector<int>& dfsvis, vector<int>& res){
+    bool dfs(int node,vector<vector<int>>& adj,vector<int>& vis,vector<int>& path,vector<int>& res){
         
+        // cout<<node<<" ";
         vis[node] = 1;
-        dfsvis[node] = 1;
+        path[node] = 1;
         
         for(auto it: adj[node]){
             if(vis[it]==0){
-                if(isCyclic(it,adj,vis,dfsvis,res)==true)
+                if(dfs(it,adj,vis,path,res) == true)
                     return true;
             }
-            else if(dfsvis[it]==1)
+            else if(path[it]==1){
                 return true;
+            }
         }
-        dfsvis[node] = 0;
+        
+        path[node] = 0;
         res.push_back(node);
         return false;
     }
     
-    vector<int> findOrder(int num, vector<vector<int>>& pre) {
+    vector<int> findOrder(int n, vector<vector<int>>& pre) {
         
-        vector<vector<int>> adj(num);
+        vector<vector<int>> adj(n);
         
-        for(auto v:pre){
-            adj[v[1]].push_back(v[0]);
+        for(int i=0; i<pre.size(); i++){
+            adj[pre[i][1]].push_back(pre[i][0]);
         }
-        vector<int> vis(num,0), dfsvis(num,0), res;
         
-        // dfsvis --> true for nodes in current recursion stack
-        for(int i=0; i<num; i++){
+        vector<int> vis(n,0),path(n,0), res;
+        
+        for(int i=0; i<n; i++){
             if(vis[i]==0){
-                if(isCyclic(i,adj,vis,dfsvis,res) == true)
+                if(dfs(i,adj,vis,path,res)==true)       //there is a cycle
                     return {};
             }
         }
