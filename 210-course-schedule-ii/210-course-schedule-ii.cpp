@@ -1,26 +1,5 @@
 class Solution {
 public:
-    bool dfs(int node,vector<vector<int>>& adj,vector<int>& vis,vector<int>& path,vector<int>& res){
-        
-        // cout<<node<<" ";
-        vis[node] = 1;
-        path[node] = 1;
-        
-        for(auto it: adj[node]){
-            if(vis[it]==0){
-                if(dfs(it,adj,vis,path,res) == true)
-                    return true;
-            }
-            else if(path[it]==1){
-                return true;
-            }
-        }
-        
-        path[node] = 0;
-        res.push_back(node);
-        return false;
-    }
-    
     vector<int> findOrder(int n, vector<vector<int>>& pre) {
         
         vector<vector<int>> adj(n);
@@ -29,16 +8,34 @@ public:
             adj[pre[i][1]].push_back(pre[i][0]);
         }
         
-        vector<int> vis(n,0),path(n,0), res;
-        
+        vector<int> inDegree(n,0);
         for(int i=0; i<n; i++){
-            if(vis[i]==0){
-                if(dfs(i,adj,vis,path,res)==true)       //there is a cycle
-                    return {};
+            for(auto it: adj[i]){
+                inDegree[it]++;
             }
         }
         
-        reverse(res.begin(), res.end());
+        queue<int> q;
+        for(int i=0; i<n; i++){
+            if(inDegree[i]==0)
+                q.push(i);
+        }
+        
+        vector<int> res;
+        while(q.size()){
+            int node = q.front();
+            q.pop();
+            res.push_back(node);
+            
+            for(auto it: adj[node]){
+                inDegree[it]--;
+                if(inDegree[it]==0)
+                    q.push(it);
+            }
+        }
+        
+        if(res.size() < n)
+            return {};
         return res;
     }
 };
