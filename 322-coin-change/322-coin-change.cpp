@@ -1,33 +1,31 @@
 class Solution {
 public:
-    int f(int ind, int amt, vector<int> &A, vector<vector<int>> &dp){
+    int f(int i,int amt,vector<int>& coins,vector<vector<int>>& dp){
+        if(amt==0)
+            return 0;
+        if(i==-1)
+            return 1e9;
         
-        if(ind == -1){
-            if(amt==0)
-                return 0;
-            else
-                return INT_MAX-20;
+        if(dp[i][amt] != -1)
+            return dp[i][amt];
+        
+        int tk=1e9,nt=1e9;
+        if(coins[i] <= amt){
+            tk = 1 + f(i,amt-coins[i],coins,dp);
         }
-        if(dp[ind][amt] != -1)
-            return dp[ind][amt];
+        nt = f(i-1,amt,coins,dp);
         
-        int take=INT_MAX-20, nottake=INT_MAX-20;
-    
-        nottake = f(ind-1,amt,A,dp);
-        if(A[ind]<=amt)
-            take = 1+f(ind,amt-A[ind],A,dp);
-        
-        return dp[ind][amt] = min(take,nottake);
+        return dp[i][amt] = min(tk,nt);
     }
-    int coinChange(vector<int>& A, int amt) {
+    
+    int coinChange(vector<int>& coins, int amt) {
         
-        int n = A.size();
+        int n = coins.size();
         vector<vector<int>> dp(n+1,vector<int>(amt+1,-1));
-        int res = f(n-1,amt,A,dp);
+        int res = f(n-1,amt,coins,dp);
         
-        if(res<INT_MAX-20)
-            return res;
-        else
+        if(res >= 1e9)
             return -1;
+        return res;
     }
 };
